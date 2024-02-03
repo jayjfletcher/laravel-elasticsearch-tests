@@ -35,7 +35,7 @@ it('should create products', function () use (&$fieldChecks) {
         $product = $pf->definition();
         if ($i % 10 == 0) {
             $product['color'] = 'blue';
-            
+            $product['name'] .= '/blue';
         }
         if ($i % 10 == 1) {
             $product['color'] = 'black';
@@ -84,6 +84,13 @@ it('can search for a term', function () use (&$fieldChecks) {
     $this->assertTrue($found > 0);
     $this->assertTrue(count($set2) == $found);
     
+})->skip($skip);
+
+it('can search for a term containing a forward slash', function () use (&$fieldChecks) {
+    $find = Product::where('color', 'blue')->first();
+    $set = Product::term($find->name)->field('name')->search();
+    $found = count($set);
+    $this->assertTrue($found > 0);
 })->skip($skip);
 
 
